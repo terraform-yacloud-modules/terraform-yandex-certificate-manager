@@ -1,5 +1,5 @@
 resource "yandex_cm_certificate" "self_managed" {
-  for_each = { for k, v in var.self_managed : k => v if var.create_self_managed }
+  for_each = var.self_managed
 
   folder_id = try(each.value.folder_id, null)
 
@@ -23,7 +23,7 @@ resource "yandex_cm_certificate" "self_managed" {
 }
 
 resource "yandex_cm_certificate" "managed" {
-  for_each = { for k, v in var.managed : k => v if var.create_managed }
+  for_each = var.managed
 
   folder_id = try(each.value.folder_id, null)
 
