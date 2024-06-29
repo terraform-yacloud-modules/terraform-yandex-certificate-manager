@@ -3,7 +3,7 @@ resource "yandex_cm_certificate" "self_managed" {
 
   folder_id = try(each.value.folder_id, null)
 
-  name        = each.key
+  name        = try(each.value.name, each.key)
   description = each.value.description
 
   self_managed {
@@ -27,7 +27,7 @@ resource "yandex_cm_certificate" "managed" {
 
   folder_id = try(each.value.folder_id, null)
 
-  name        = each.key
+  name        = try(each.value.name, each.key)
   domains     = each.value.domains
   description = each.value.description
 

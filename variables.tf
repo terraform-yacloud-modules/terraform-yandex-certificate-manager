@@ -19,6 +19,7 @@ variable "self_managed" {
     private_key                = optional(string, null)                                # Private key of certificate.
     private_key_lockbox_secret = optional(object({ id = string, key = string }), null) # Lockbox secret specification for getting private key.
     folder_id                  = optional(string, null)                                # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.
+    name                       = optional(string, null)                                # Certificate name. If value is omitted, the key of the map is used.
   }))
   default = {}
 }
@@ -32,6 +33,7 @@ variable "managed" {
     challenge_type  = optional(string, "DNS_CNAME") # Domain owner-check method. Possible values: DNS_CNAME, DNS_TXT, HTTP
     challenge_count = optional(number, 1)           # Expected number of challenge count needed to validate certificate.
     folder_id       = optional(string, null)        # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.
+    name            = optional(string, null)        # Certificate name. If value is omitted, the key of the map is used.
   })
   default = {}
 }
