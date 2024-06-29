@@ -11,16 +11,31 @@ See [examples](https://github.com/terraform-yacloud-modules/terraform-yandex-cer
 Import into Certificate Manager a self-managed certificate.
 
 ```hcl
-module "self_managed" {
+module "certificate_manager" {
   source = "terraform-yacloud-modules/certificate-manager/yandex"
 
   self_managed = {
-    main = {
+    implicit = {
       description = "self-managed domain certificate"
       certificate = "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE----- \n -----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----"
       private_key = "-----BEGIN RSA PRIVATE KEY----- ... -----END RSA PRIVATE KEY-----"
     }
+    file = {
+      description = "self-managed domain certificate from file"
+      certificate = file("cert.pem")
+      private_key = file("key.pem")
+    }
+    lockbox = {
+      description = "self-managed domain certificate from lockbox"
+      certificate = "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE----- \n -----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----"
+      private_key_lockbox_secret = {
+        id  = "lockbox_id"
+        key = "lockbox_key"
+      }
+    }
   }
+  
+  
 }
 ```
 
@@ -32,8 +47,8 @@ to give users references for how to use the module(s) as well as testing/validat
 module. If contributing to the project, please be sure to make any appropriate updates to the relevant examples to allow
 maintainers to test your changes and to keep the examples up to date for users. Thank you!
 
-- [Self-managed certificate]()
-- [Managed certificate]()
+- [Self-managed certificate](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/tree/main/examples/self-managed)
+- [Managed certificate](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/tree/main/examples/managed)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
