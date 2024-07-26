@@ -1,8 +1,3 @@
-variable "folder_id" {
-  description = "Yandex Cloud folder ID"
-  type        = string
-}
-
 variable "self_managed" {
   description = "Self-managed certificate specification."
   type = map(object({
