@@ -1,6 +1,7 @@
 module "self_managed" {
   source = "../.."
 
+  folder_id = "xxx"
   self_managed = {
     domain_com = {
       description = "self-managed domain certificate from file"

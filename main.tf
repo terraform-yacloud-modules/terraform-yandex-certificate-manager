@@ -1,7 +1,9 @@
+data "yandex_client_config" "client" {}
+
 resource "yandex_cm_certificate" "self_managed" {
   for_each = var.self_managed
 
-  folder_id = try(each.value.folder_id, null)
+  folder_id   = var.folder_id == null ? data.yandex_client_config.client.folder_id : var.folder_id
 
   name        = each.key
   description = each.value.description
