@@ -1,5 +1,3 @@
-data "yandex_client_config" "client" {}
-
 resource "yandex_cm_certificate" "self_managed" {
   for_each = var.self_managed
 
