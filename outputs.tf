@@ -35,33 +35,26 @@ output "managed_certificate_not_after" {
 ################################################################################
 # Self-Managed Certificate
 ################################################################################
-
-output "self_managed_certificate_ids" {
-  description = "The IDs of the self-managed certificates."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.id]
-}
-
-output "self_managed_certificate_status" {
-  description = "Status of the self-managed certificates."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.status]
-}
-
-output "self_managed_certificate_issuer" {
-  description = "Issuer of the self-managed certificates."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.issuer]
-}
-
-output "self_managed_certificate_subject" {
-  description = "Subject of the self-managed certificates."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.subject]
-}
-
-output "self_managed_certificate_not_before" {
-  description = "Self-managed certificate start valid period."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.not_before]
-}
-
-output "self_managed_certificate_not_after" {
-  description = "Self-managed certificate end valid period."
-  value       = [for cert in yandex_cm_certificate.self_managed : cert.not_after]
+output "self_managed_certificates" {
+  description = "Self-managed certificates grouped by domain."
+  value = {
+    for domain, cert in yandex_cm_certificate.self_managed : domain => {
+      challenges = cert.challenges
+      created_at = cert.created_at
+      deletion_protection = cert.deletion_protection
+      description = cert.description
+      id = cert.id
+      issued_at = cert.issued_at
+      issuer = cert.issuer
+      labels = cert.labels
+      name = cert.name
+      not_after = cert.not_after
+      not_before = cert.not_before
+      serial = cert.serial
+      status = cert.status
+      subject = cert.subject
+      type = cert.type
+      updated_at = cert.updated_at
+    }
+  }
 }
