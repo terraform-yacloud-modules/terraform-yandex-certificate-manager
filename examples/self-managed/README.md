@@ -1,4 +1,4 @@
-# Yandex Cloud Certificate Manager Terraform module
+# Self-managed example
 
 ## Usage
 
