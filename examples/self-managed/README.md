@@ -24,7 +24,7 @@ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout key.pem -out cert.p
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.47.0 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.72.0 |
 
 ## Providers
 
@@ -34,7 +34,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_self_managed"></a> [self\_managed](#module\_self\_managed) | ../.. | n/a |
+| <a name="module_self_managed"></a> [self\_managed](#module\_self\_managed) | ../../ | n/a |
+| <a name="module_testsecret"></a> [testsecret](#module\_testsecret) | git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git | n/a |
 
 ## Resources
 
@@ -48,10 +49,8 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_certificate_ids"></a> [certificate\_ids](#output\_certificate\_ids) | The IDs of the self-managed certificates. |
-| <a name="output_certificate_issuer"></a> [certificate\_issuer](#output\_certificate\_issuer) | Issuer of the self-managed certificates. |
-| <a name="output_certificate_not_after"></a> [certificate\_not\_after](#output\_certificate\_not\_after) | Self-managed certificate end valid period. |
-| <a name="output_certificate_not_before"></a> [certificate\_not\_before](#output\_certificate\_not\_before) | Self-managed certificate start valid period. |
-| <a name="output_certificate_status"></a> [certificate\_status](#output\_certificate\_status) | Status of the self-managed certificates. |
-| <a name="output_certificate_subject"></a> [certificate\_subject](#output\_certificate\_subject) | Subject of the self-managed certificates. |
+| <a name="output_domain_com_certificate"></a> [domain\_com\_certificate](#output\_domain\_com\_certificate) | Certificate details for domain-com |
+| <a name="output_example_com_certificate"></a> [example\_com\_certificate](#output\_example\_com\_certificate) | Certificate details for example-com |
+| <a name="output_id"></a> [id](#output\_id) | Lockbox secret ID |
+| <a name="output_name"></a> [name](#output\_name) | Lockbox secret name |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

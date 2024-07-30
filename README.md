@@ -56,13 +56,13 @@ maintainers to test your changes and to keep the examples up to date for users. 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.84 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.72.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | >= 0.84 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | >= 0.72.0 |
 
 ## Modules
 
@@ -86,18 +86,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_managed_certificate_ids"></a> [managed\_certificate\_ids](#output\_managed\_certificate\_ids) | The IDs of the managed certificates. |
-| <a name="output_managed_certificate_issuer"></a> [managed\_certificate\_issuer](#output\_managed\_certificate\_issuer) | Issuer of the managed certificates. |
-| <a name="output_managed_certificate_not_after"></a> [managed\_certificate\_not\_after](#output\_managed\_certificate\_not\_after) | Managed certificate end valid period. |
-| <a name="output_managed_certificate_not_before"></a> [managed\_certificate\_not\_before](#output\_managed\_certificate\_not\_before) | Managed certificate start valid period. |
-| <a name="output_managed_certificate_status"></a> [managed\_certificate\_status](#output\_managed\_certificate\_status) | Status of the managed certificates. |
-| <a name="output_managed_certificate_subject"></a> [managed\_certificate\_subject](#output\_managed\_certificate\_subject) | Subject of the managed certificates. |
-| <a name="output_self_managed_certificate_ids"></a> [self\_managed\_certificate\_ids](#output\_self\_managed\_certificate\_ids) | The IDs of the self-managed certificates. |
-| <a name="output_self_managed_certificate_issuer"></a> [self\_managed\_certificate\_issuer](#output\_self\_managed\_certificate\_issuer) | Issuer of the self-managed certificates. |
-| <a name="output_self_managed_certificate_not_after"></a> [self\_managed\_certificate\_not\_after](#output\_self\_managed\_certificate\_not\_after) | Self-managed certificate end valid period. |
-| <a name="output_self_managed_certificate_not_before"></a> [self\_managed\_certificate\_not\_before](#output\_self\_managed\_certificate\_not\_before) | Self-managed certificate start valid period. |
-| <a name="output_self_managed_certificate_status"></a> [self\_managed\_certificate\_status](#output\_self\_managed\_certificate\_status) | Status of the self-managed certificates. |
-| <a name="output_self_managed_certificate_subject"></a> [self\_managed\_certificate\_subject](#output\_self\_managed\_certificate\_subject) | Subject of the self-managed certificates. |
+| <a name="output_managed_certificates"></a> [managed\_certificates](#output\_managed\_certificates) | Managed certificates grouped by domain. |
+| <a name="output_self_managed_certificates"></a> [self\_managed\_certificates](#output\_self\_managed\_certificates) | Self-managed certificates grouped by domain. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## License
