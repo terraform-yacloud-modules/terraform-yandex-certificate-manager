@@ -22,13 +22,15 @@ module "self_managed" {
       certificate = file("cert.pem")
       private_key = file("key.pem")
     }
-    example_com = {
-      description = "self-managed domain certificate from lockbox"
-      certificate = "-----BEGIN CERTIFICATE----- ... -----END CERTIFICATE----- \n -----BEGIN CERTIFICATE----- ... -----END CERTIFICATE-----"
-      private_key_lockbox_secret = {
-        id  = module.testsecret.id
-        key = "key-pem"
-      }
-    }
+#     example-com = {
+#       description = "self-managed domain certificate from lockbox"
+#       certificate = file("cert.pem")
+#       private_key_lockbox_secret = {
+#         id  = module.testsecret.id
+#         key = "key-pem"
+#       }
+#     }
   }
+
+  depends_on = [module.testsecret]
 }
