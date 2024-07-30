@@ -12,9 +12,8 @@ module "testsecret" {
   deletion_protection = false
 }
 
-
 module "self_managed" {
-  source = "../.."
+  source = "../../"
 
   self_managed = {
     domain-com = {

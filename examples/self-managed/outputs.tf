@@ -8,32 +8,12 @@ output "name" {
   value       = module.testsecret.name
 }
 
-output "self_managed_certificate_ids" {
-  description = "The IDs of the self-managed certificates."
-  value       = module.self_managed.self_managed_certificate_ids
+output "domain_com_certificate" {
+  description = "Certificate details for domain-com"
+  value = module.self_managed.self_managed_certificates["domain-com"]
 }
 
-output "self_managed_certificate_status" {
-  description = "Status of the self-managed certificates."
-  value       = module.self_managed.self_managed_certificate_status
-}
-
-output "self_managed_certificate_issuer" {
-  description = "Issuer of the self-managed certificates."
-  value       = module.self_managed.self_managed_certificate_issuer
-}
-
-output "self_managed_certificate_subject" {
-  description = "Subject of the self-managed certificates."
-  value       = module.self_managed.self_managed_certificate_subject
-}
-
-output "self_managed_certificate_not_before" {
-  description = "Self-managed certificate start valid period."
-  value       = module.self_managed.self_managed_certificate_not_before
-}
-
-output "self_managed_certificate_not_after" {
-  description = "Self-managed certificate end valid period."
-  value       = module.self_managed.self_managed_certificate_not_after
+output "example_com_certificate" {
+  description = "Certificate details for example-com"
+  value = module.self_managed.self_managed_certificates["example-com"]
 }
