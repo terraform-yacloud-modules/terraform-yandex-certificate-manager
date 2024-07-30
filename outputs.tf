@@ -38,30 +38,30 @@ output "managed_certificate_not_after" {
 
 output "self_managed_certificate_ids" {
   description = "The IDs of the self-managed certificates."
-  value       = try(yandex_cm_certificate.self_managed[*].id, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.id]
 }
 
 output "self_managed_certificate_status" {
   description = "Status of the self-managed certificates."
-  value       = try(yandex_cm_certificate.self_managed[*].status, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.status]
 }
 
 output "self_managed_certificate_issuer" {
   description = "Issuer of the self-managed certificates."
-  value       = try(yandex_cm_certificate.self_managed[*].issuer, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.issuer]
 }
 
 output "self_managed_certificate_subject" {
   description = "Subject of the self-managed certificates."
-  value       = try(yandex_cm_certificate.self_managed[*].subject, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.subject]
 }
 
 output "self_managed_certificate_not_before" {
   description = "Self-managed certificate start valid period."
-  value       = try(yandex_cm_certificate.self_managed[*].not_before, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.not_before]
 }
 
 output "self_managed_certificate_not_after" {
   description = "Self-managed certificate end valid period."
-  value       = try(yandex_cm_certificate.self_managed[*].not_after, null)
+  value       = [for cert in yandex_cm_certificate.self_managed : cert.not_after]
 }
