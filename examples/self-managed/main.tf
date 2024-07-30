@@ -17,7 +17,7 @@ module "self_managed" {
   source = "../.."
 
   self_managed = {
-    "domain-com" = {
+    domain-com = {
       description = "self-managed domain certificate from file"
       certificate = file("cert.pem")
       private_key = file("key.pem")
