@@ -1,6 +1,7 @@
 # Managed example
 
 ## Usage
+You need to register a domain, for example on reg.ru.
 
 To run this example you need to execute:
 
