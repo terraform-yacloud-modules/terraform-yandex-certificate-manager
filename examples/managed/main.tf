@@ -46,7 +46,6 @@ module "dns_zone" {
   source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-dns.git//modules/zone?ref=v1.0.0"
 
   name        = "my-private-zone"
-  description = "desc"
 
   zone             = "dns-zone.org.ru."
   is_public        = true
@@ -63,15 +62,24 @@ module "dns_recordset" {
   data    = [module.yandex_compute_instance.instance_public_ip]
 }
 
+# module "dns_letsencrypt" {
+#   source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-dns.git//modules/recordset?ref=v1.0.0"
+#
+#   zone_id = module.dns_zone.id
+#   name    = module.managed.managed_certificates["test"].challenges[0].dns_name
+#   type    = module.managed.managed_certificates["test"].challenges[0].dns_value
+#   ttl     = 200
+#   data    = [module.managed.managed_certificates["test"].challenges[0].dns_value]
+# }
+
+
 module "managed" {
   source = "../../"
 
   managed = {
     test = {
       domains         = ["test.dns-zone.org.ru"]
-      description     = "Managed certificate for test.dns-zone.org.ru"
-      labels          = { "environment" = "production", "owner" = "admin" }
-      challenge_type  = "HTTP"
+      challenge_type  = "DNS_CNAME"
       challenge_count = 1
     }
   }
