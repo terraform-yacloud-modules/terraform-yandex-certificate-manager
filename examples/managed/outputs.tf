@@ -1,11 +1,3 @@
-output "instance_private_ip" {
-  value = module.yandex_compute_instance.instance_private_ip
-}
-
-output "instance_public_ip" {
-  value = module.yandex_compute_instance.instance_public_ip
-}
-
 output "zone_id" {
   description = "The unique identifier of the DNS zone created by the module."
   value       = module.dns_zone.id
@@ -61,8 +53,7 @@ output "type" {
   value       = module.managed.managed_certificates["test"].challenges[0].type
 }
 
-output "updated_at" {
-  description = ""
-  value       = module.managed.managed_certificates["test"].challenges[0].updated_at
+output "external_ipv4" {
+  description = "External IPv4 address details"
+  value       = module.address.external_ipv4_address
 }
-
