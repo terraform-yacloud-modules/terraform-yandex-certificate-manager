@@ -1,5 +1,44 @@
-data "yandex_vpc_network" "default" {
-  name = "default"
+data "yandex_client_config" "client" {}
+
+module "network" {
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-vpc.git?ref=v1.0.0"
+
+  folder_id  = data.yandex_client_config.client.folder_id
+  blank_name = "instance-minimal-vpc-nat-gateway"
+
+  azs = ["ru-central1-a"]
+
+  private_subnets    = [["10.17.0.0/24"]]
+  create_vpc         = true
+  create_nat_gateway = true
+}
+
+module "yandex_compute_instance" {
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-instance.git?ref=v1.0.0"
+
+  folder_id = data.yandex_client_config.client.folder_id
+
+  name = "minimal-instance"
+
+  zone       = "ru-central1-a"
+  subnet_id  = module.network.private_subnets_ids[0]
+  enable_nat = true
+  create_pip = true
+
+  hostname         = "minimal-instance"
+  generate_ssh_key = false
+  ssh_user         = "ubuntu"
+  ssh_pubkey       = "~/.ssh/id_rsa.pub"
+
+  user_data = <<-EOF
+        #cloud-config
+        package_upgrade: true
+        packages:
+          - nginx
+        runcmd:
+          - [systemctl, start, nginx]
+          - [systemctl, enable, nginx]
+        EOF
 }
 
 module "dns_zone" {
@@ -9,90 +48,31 @@ module "dns_zone" {
   name        = "my-private-zone"
   description = "desc"
 
-  labels = {
-    label1 = "label-1-value"
-  }
-
   zone             = "dns-zone.org.ru."
   is_public        = true
-  private_networks = [data.yandex_vpc_network.default.id] # можете заменить на ваш network_id
+  private_networks = [module.network.vpc_id] # можете заменить на ваш network_id
 }
 
-module "address-test1" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-address.git"
+module "dns_recordset" {
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-dns.git//modules/recordset?ref=v1.0.0"
 
-  name        = "test1"
-  description = "Example address description"
-  labels = {
-    environment = "production"
-  }
-  zone_id = "ru-central1-a"
-  dns_record = {
-    fqdn        = "test1"
-    dns_zone_id = module.dns_zone.id
-    ttl         = 300
-    ptr         = true
-  }
-}
-
-module "address-test2" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-address.git"
-
-  name        = "test2"
-  description = "Example address description"
-  labels = {
-    environment = "production"
-  }
-  zone_id = "ru-central1-a"
-  dns_record = {
-    fqdn        = "test2"
-    dns_zone_id = module.dns_zone.id
-    ttl         = 300
-    ptr         = true
-  }
-}
-
-module "address-test3" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-address.git"
-
-  name        = "test3"
-  description = "Example address description"
-  labels = {
-    environment = "production"
-  }
-  zone_id = "ru-central1-a"
-  dns_record = {
-    fqdn        = "test3"
-    dns_zone_id = module.dns_zone.id
-    ttl         = 300
-    ptr         = true
-  }
+  zone_id = module.dns_zone.id
+  name    = "test.dns-zone.org.ru."
+  type    = "A"
+  ttl     = 200
+  data    = [module.yandex_compute_instance.instance_public_ip]
 }
 
 module "managed" {
   source = "../../"
 
   managed = {
-    test1 = {
-      domains         = ["test1.dns-zone.org.ru"]
-      description     = "Managed certificate for test1.dns-zone.org.ru"
-      labels          = { "environment" = "production", "owner" = "admin" }
-      challenge_type  = "DNS_CNAME"
-      challenge_count = 1
-    }
-    test2 = {
-      domains         = ["test2.dns-zone.org.ru"]
-      description     = "Managed certificate for test2.dns-zone.org.ru"
-      labels          = { "environment" = "staging", "owner" = "devops" }
-      challenge_type  = "DNS_TXT"
-      challenge_count = 1
-    }
-    test3 = {
-      domains         = ["test3.dns-zone.org.ru", "www.dns-zone.org.ru"]
-      description     = "Managed certificate for test3.dns-zone.org.ru and wildcard"
+    test = {
+      domains         = ["test.dns-zone.org.ru"]
+      description     = "Managed certificate for test.dns-zone.org.ru"
       labels          = { "environment" = "production", "owner" = "admin" }
       challenge_type  = "HTTP"
-      challenge_count = 2
+      challenge_count = 1
     }
   }
 }

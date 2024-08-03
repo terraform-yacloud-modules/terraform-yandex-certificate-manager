@@ -1,14 +1,17 @@
-output "test1_certificate" {
-  description = "Certificate details for test1"
-  value       = module.managed.managed_certificates["test1"]
+output "instance_private_ip" {
+  value = module.yandex_compute_instance.instance_private_ip
 }
 
-output "test2_certificate" {
-  description = "Certificate details for test2"
-  value       = module.managed.managed_certificates["test2"]
+output "instance_public_ip" {
+  value = module.yandex_compute_instance.instance_public_ip
 }
 
-output "test3_certificate" {
-  description = "Certificate details for test3"
-  value       = module.managed.managed_certificates["test3"]
+output "zone_id" {
+  description = "The unique identifier of the DNS zone created by the module."
+  value       = module.dns_zone.id
+}
+
+output "test_certificate" {
+  description = "Certificate details for test"
+  value       = module.managed.managed_certificates["test"]
 }
