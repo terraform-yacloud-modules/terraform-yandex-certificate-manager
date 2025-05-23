@@ -17,6 +17,8 @@ resource "yandex_cm_certificate" "self_managed" {
     }
   }
 
+  deletion_protection = each.value.deletion_protection
+
   labels = each.value.labels
 }
 
@@ -31,6 +33,8 @@ resource "yandex_cm_certificate" "managed" {
     challenge_type  = each.value.challenge_type
     challenge_count = each.value.challenge_count
   }
+
+  deletion_protection = each.value.deletion_protection
 
   labels = each.value.labels
 }
