@@ -1,5 +1,5 @@
 module "testsecret" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git"
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git?ref=v1.0.0"
 
   name   = "testsecret"
   labels = {}
