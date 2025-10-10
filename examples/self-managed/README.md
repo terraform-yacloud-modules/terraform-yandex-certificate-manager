@@ -18,7 +18,7 @@ In this example the self-managed certificates are created via the following comm
 openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout key.pem -out cert.pem -subj /CN=domain.com
  ```
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -35,7 +35,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_self_managed"></a> [self\_managed](#module\_self\_managed) | ../../ | n/a |
-| <a name="module_testsecret"></a> [testsecret](#module\_testsecret) | git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git | n/a |
+| <a name="module_testsecret"></a> [testsecret](#module\_testsecret) | git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git | v1.0.0 |
 
 ## Resources
 
@@ -53,4 +53,4 @@ No inputs.
 | <a name="output_example_com_certificate"></a> [example\_com\_certificate](#output\_example\_com\_certificate) | Certificate details for example-com |
 | <a name="output_id"></a> [id](#output\_id) | Lockbox secret ID |
 | <a name="output_name"></a> [name](#output\_name) | Lockbox secret name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

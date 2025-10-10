@@ -24,7 +24,7 @@ module "dns_zone" {
 }
 
 module "address" {
-  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-address.git"
+  source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-address.git?ref=v1.0.0"
 
   name    = "test"
   zone_id = "ru-central1-a"
