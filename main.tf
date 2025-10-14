@@ -1,5 +1,9 @@
+data "yandex_client_config" "client" {}
+
 resource "yandex_cm_certificate" "self_managed" {
   for_each = var.self_managed
+
+  folder_id = try(each.value.folder_id, data.yandex_client_config.client.folder_id)
 
   name        = each.key
   description = each.value.description
@@ -22,6 +26,8 @@ resource "yandex_cm_certificate" "self_managed" {
 
 resource "yandex_cm_certificate" "managed" {
   for_each = var.managed
+
+  folder_id = try(each.value.folder_id, data.yandex_client_config.client.folder_id)
 
   name        = each.key
   domains     = each.value.domains
