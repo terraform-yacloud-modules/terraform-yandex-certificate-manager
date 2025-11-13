@@ -1,7 +1,7 @@
 module "testsecret" {
   source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-lockbox.git?ref=v1.0.0"
 
-  name   = "testsecret"
+  name = "testsecret"
   labels = {
     environment = "test"
     project     = "certificate-manager"
