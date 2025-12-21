@@ -13,10 +13,10 @@ resource "yandex_cm_certificate" "self_managed" {
     private_key = try(each.value.private_key, null)
 
     dynamic "private_key_lockbox_secret" {
-      for_each = each.value.private_key == null ? [1] : []
+      for_each = each.value.private_key == null && each.value.private_key_lockbox_secret != null ? [1] : []
       content {
-        id  = try(each.value.private_key_lockbox_secret.id, null)
-        key = try(each.value.private_key_lockbox_secret.key, null)
+        id  = each.value.private_key_lockbox_secret.id
+        key = each.value.private_key_lockbox_secret.key
       }
     }
   }
