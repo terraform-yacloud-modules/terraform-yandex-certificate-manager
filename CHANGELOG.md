@@ -1,3 +1,7 @@
+## v2.8.0 - 2026-03-14
+### Miscellaneous
+- 1ce9fde add cm_certificate_iam_member support ([#63](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/63))
+
 ## v2.7.0 - 2026-03-02
 ### Miscellaneous
 - 23237d6 build(deps): bump hashicorp/setup-terraform from 3 to 4 ([#62](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/62))
