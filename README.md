@@ -38,6 +38,28 @@ module "certificate_manager" {
 }
 ```
 
+### IAM bindings for certificates (provider >= 0.136.0)
+
+[cm_certificate_iam_member](https://yandex.cloud/ru/docs/terraform/resources/cm_certificate_iam_member) — назначение ролей на конкретный сертификат:
+
+```hcl
+module "certificate_manager" {
+  source = "terraform-yacloud-modules/certificate-manager/yandex"
+
+  self_managed = { ... }
+  # или managed = { ... }
+
+  certificate_iam_members = {
+    "downloader-sa" = {
+      certificate_key  = "implicit"           # ключ сертификата в self_managed или managed
+      certificate_type = "self_managed"       # "self_managed" или "managed"
+      role             = "certificate-manager.certificates.downloader"
+      member           = "serviceAccount:${yandex_iam_service_account.sa.id}"
+    }
+  }
+}
+```
+
 ## Examples
 
 Examples codified under
@@ -54,14 +76,14 @@ maintainers to test your changes and to keep the examples up to date for users. 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.72.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.136.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | >= 0.72.0 |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | >= 0.136.0 |
 
 ## Modules
 
@@ -73,12 +95,14 @@ No modules.
 |------|------|
 | [yandex_cm_certificate.managed](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate) | resource |
 | [yandex_cm_certificate.self_managed](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate) | resource |
+| [yandex_cm_certificate_iam_member.this](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate_iam_member) | resource |
 | [yandex_client_config.client](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/data-sources/client_config) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_certificate_iam_members"></a> [certificate\_iam\_members](#input\_certificate\_iam\_members) | Map of IAM member bindings for certificates. Key is a unique id; certificate\_key must be an existing key in self\_managed or managed. | <pre>map(object({<br/>    certificate_key  = string # Key of the certificate in var.self_managed or var.managed.<br/>    certificate_type = string # Either 'self_managed' or 'managed'.<br/>    role             = string # IAM role (e.g. certificate-manager.certificates.downloader).<br/>    member           = string # Identity: serviceAccount:id, userAccount:id, etc.<br/>  }))</pre> | `{}` | no |
 | <a name="input_managed"></a> [managed](#input\_managed) | Managed certificate specification. | <pre>map(object({<br/>    domains             = list(string)                  # List of domains for this certificate (required)<br/>    description         = optional(string, "")          # Certificate description.<br/>    labels              = optional(map(string), {})     # Labels to assign to this certificate.<br/>    challenge_type      = optional(string, "DNS_CNAME") # Domain owner-check method. Possible values: DNS_CNAME, DNS_TXT, HTTP<br/>    challenge_count     = optional(number, 1)           # Expected number of challenge count needed to validate certificate.<br/>    folder_id           = optional(string, null)        # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.<br/>    deletion_protection = optional(bool, false)         # Protection from accidental deletion of the certificate.<br/>  }))</pre> | `{}` | no |
 | <a name="input_self_managed"></a> [self\_managed](#input\_self\_managed) | Self-managed certificate specification. | <pre>map(object({<br/>    description                = optional(string, "")                                  # Certificate description.<br/>    labels                     = optional(map(string), {})                             # Labels to assign to this certificate.<br/>    certificate                = string                                                # Certificate with chain (required).<br/>    private_key                = optional(string, null)                                # Private key of certificate.<br/>    private_key_lockbox_secret = optional(object({ id = string, key = string }), null) # Lockbox secret specification for getting private key.<br/>    folder_id                  = optional(string, null)                                # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.<br/>    deletion_protection        = optional(bool, false)                                 # Protection from accidental deletion of the certificate.<br/>  }))</pre> | `{}` | no |
 

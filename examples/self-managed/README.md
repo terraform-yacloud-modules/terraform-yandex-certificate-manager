@@ -23,8 +23,8 @@ openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout key.pem -out cert.p
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.72.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.136.0 |
 
 ## Providers
 

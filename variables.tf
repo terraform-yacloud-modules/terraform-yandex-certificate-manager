@@ -25,3 +25,14 @@ variable "managed" {
   }))
   default = {}
 }
+
+variable "certificate_iam_members" {
+  description = "Map of IAM member bindings for certificates. Key is a unique id; certificate_key must be an existing key in self_managed or managed."
+  type = map(object({
+    certificate_key  = string # Key of the certificate in var.self_managed or var.managed.
+    certificate_type = string # Either 'self_managed' or 'managed'.
+    role             = string # IAM role (e.g. certificate-manager.certificates.downloader).
+    member           = string # Identity: serviceAccount:id, userAccount:id, etc.
+  }))
+  default = {}
+}
