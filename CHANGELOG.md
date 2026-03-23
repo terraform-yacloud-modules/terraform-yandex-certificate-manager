@@ -1,3 +1,7 @@
+## v2.9.0 - 2026-03-23
+### Miscellaneous
+- cbb753e build(deps): bump actions/cache from 5.0.3 to 5.0.4 ([#64](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/64))
+
 ## v2.8.0 - 2026-03-14
 ### Miscellaneous
 - 1ce9fde add cm_certificate_iam_member support ([#63](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/63))
