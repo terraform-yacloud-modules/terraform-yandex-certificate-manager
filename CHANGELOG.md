@@ -1,3 +1,7 @@
+## v2.12.0 - 2026-06-29
+### Miscellaneous
+- bcdb3b4 build(deps): bump actions/cache from 5.0.5 to 6.1.0 ([#67](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/67))
+
 ## v2.11.0 - 2026-06-23
 ### Miscellaneous
 - 77620b4 build(deps): bump actions/checkout from 6 to 7 ([#66](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/66))
