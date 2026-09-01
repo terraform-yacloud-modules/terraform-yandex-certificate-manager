@@ -1,3 +1,10 @@
+## v2.18.0 - 2026-09-01
+### Bug Fixes
+- 7426a6d fix: передача folder_id в примере с приоритетом tfvars над YC_FOLDER_ID
+
+### Miscellaneous
+- af168c8 Merge pull request [#72](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/72) from terraform-yacloud-modules/feature/add-folder-id-tfvars
+
 ## v2.17.0 - 2026-08-31
 ### Miscellaneous
 - f281868 build(deps): bump bridgecrewio/checkov-action ([#73](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/73))
