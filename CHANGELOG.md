@@ -1,3 +1,7 @@
+## v2.19.0 - 2026-09-07
+### Miscellaneous
+- b4cf1d2 build(deps): bump bridgecrewio/checkov-action ([#74](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/74))
+
 ## v2.18.0 - 2026-09-01
 ### Bug Fixes
 - 7426a6d fix: передача folder_id в примере с приоритетом tfvars над YC_FOLDER_ID
