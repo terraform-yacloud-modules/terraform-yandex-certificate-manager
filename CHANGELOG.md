@@ -1,3 +1,7 @@
+## v2.24.0 - 2026-10-19
+### Miscellaneous
+- 4e693d7 build(deps): bump bridgecrewio/checkov-action ([#79](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/79))
+
 ## v2.23.0 - 2026-10-17
 ### Miscellaneous
 - 4d15a00 build(deps): bump bridgecrewio/checkov-action ([#78](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/78))
