@@ -29,10 +29,33 @@ variable "managed" {
 variable "certificate_iam_members" {
   description = "Map of IAM member bindings for certificates. Key is a unique id; certificate_key must be an existing key in self_managed or managed."
   type = map(object({
-    certificate_key  = string # Key of the certificate in var.self_managed or var.managed.
-    certificate_type = string # Either 'self_managed' or 'managed'.
-    role             = string # IAM role (e.g. certificate-manager.certificates.downloader).
-    member           = string # Identity: serviceAccount:id, userAccount:id, etc.
+    certificate_key  = string           # Key of the certificate in var.self_managed or var.managed.
+    certificate_type = string           # Either 'self_managed' or 'managed'.
+    role             = string           # IAM role (e.g. certificate-manager.certificates.downloader).
+    member           = string           # Identity: serviceAccount:id, userAccount:id, etc.
+    sleep_after      = optional(number) # Delay in seconds after the resource is created, used to compensate IAM operations delay.
   }))
   default = {}
+
+  validation {
+    condition     = alltrue([for v in var.certificate_iam_members : contains(["managed", "self_managed"], v.certificate_type)])
+    error_message = "certificate_type must be either \"managed\" or \"self_managed\"."
+  }
+}
+
+variable "certificate_iam_bindings" {
+  description = "Map of authoritative IAM role bindings for certificates. Key is a unique id; certificate_key must be an existing key in self_managed or managed. Only one binding per role per certificate is allowed."
+  type = map(object({
+    certificate_key  = string           # Key of the certificate in var.self_managed or var.managed.
+    certificate_type = string           # Either 'self_managed' or 'managed'.
+    role             = string           # IAM role (e.g. certificate-manager.viewer).
+    members          = set(string)      # Identities: serviceAccount:id, userAccount:id, etc.
+    sleep_after      = optional(number) # Delay in seconds after the resource is created, used to compensate IAM operations delay.
+  }))
+  default = {}
+
+  validation {
+    condition     = alltrue([for v in var.certificate_iam_bindings : contains(["managed", "self_managed"], v.certificate_type)])
+    error_message = "certificate_type must be either \"managed\" or \"self_managed\"."
+  }
 }

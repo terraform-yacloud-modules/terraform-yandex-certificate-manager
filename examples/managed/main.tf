@@ -3,6 +3,11 @@ data "yandex_client_config" "client" {}
 provider "yandex" {
 }
 
+resource "yandex_iam_service_account" "certificate_consumer" {
+  name        = "certificate-consumer"
+  description = "Service account used to check certificate IAM members and bindings"
+}
+
 module "network" {
   source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-vpc.git?ref=v1.0.0"
 
@@ -67,6 +72,26 @@ module "managed" {
       domains         = ["test.dns-zone.org.ru"]
       challenge_type  = "DNS_CNAME"
       challenge_count = 1
+    }
+  }
+
+  certificate_iam_members = {
+    consumer-downloader = {
+      certificate_key  = "test"
+      certificate_type = "managed"
+      role             = "certificate-manager.certificates.downloader"
+      member           = "serviceAccount:${yandex_iam_service_account.certificate_consumer.id}"
+      sleep_after      = 10
+    }
+  }
+
+  certificate_iam_bindings = {
+    consumer-viewer = {
+      certificate_key  = "test"
+      certificate_type = "managed"
+      role             = "certificate-manager.viewer"
+      members          = ["serviceAccount:${yandex_iam_service_account.certificate_consumer.id}"]
+      sleep_after      = 1
     }
   }
 }
