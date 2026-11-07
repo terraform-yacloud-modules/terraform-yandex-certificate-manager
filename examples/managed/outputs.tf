@@ -57,3 +57,8 @@ output "external_ipv4" {
   description = "External IPv4 address details"
   value       = module.address.external_ipv4_address
 }
+
+output "certificate_consumer_service_account_id" {
+  description = "Service account ID used in the certificate IAM members and bindings."
+  value       = yandex_iam_service_account.certificate_consumer.id
+}
