@@ -60,6 +60,29 @@ module "certificate_manager" {
 }
 ```
 
+[cm_certificate_iam_binding](https://yandex.cloud/ru/docs/terraform/resources/cm_certificate_iam_binding) — авторитетное управление всеми участниками одной роли на конкретном сертификате:
+
+```hcl
+module "certificate_manager" {
+  source = "terraform-yacloud-modules/certificate-manager/yandex"
+
+  managed = { ... }
+
+  certificate_iam_bindings = {
+    "viewers" = {
+      certificate_key  = "test"               # ключ сертификата в self_managed или managed
+      certificate_type = "managed"            # "self_managed" или "managed"
+      role             = "certificate-manager.viewer"
+      members = [
+        "serviceAccount:${yandex_iam_service_account.sa.id}",
+      ]
+    }
+  }
+}
+```
+
+`certificate_iam_binding` является авторитетным для роли: участники, назначенные вне модуля, будут отозваны. Не используйте `certificate_iam_members` и `certificate_iam_bindings` для одной и той же роли на одном сертификате — ресурсы будут конфликтовать. Для компенсации задержки IAM API можно задать `sleep_after` (в секундах) в обеих структурах.
+
 ## Examples
 
 Examples codified under
@@ -95,6 +118,7 @@ No modules.
 |------|------|
 | [yandex_cm_certificate.managed](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate) | resource |
 | [yandex_cm_certificate.self_managed](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate) | resource |
+| [yandex_cm_certificate_iam_binding.this](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate_iam_binding) | resource |
 | [yandex_cm_certificate_iam_member.this](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/cm_certificate_iam_member) | resource |
 | [yandex_client_config.client](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/data-sources/client_config) | data source |
 
@@ -102,7 +126,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_certificate_iam_members"></a> [certificate\_iam\_members](#input\_certificate\_iam\_members) | Map of IAM member bindings for certificates. Key is a unique id; certificate\_key must be an existing key in self\_managed or managed. | <pre>map(object({<br/>    certificate_key  = string # Key of the certificate in var.self_managed or var.managed.<br/>    certificate_type = string # Either 'self_managed' or 'managed'.<br/>    role             = string # IAM role (e.g. certificate-manager.certificates.downloader).<br/>    member           = string # Identity: serviceAccount:id, userAccount:id, etc.<br/>  }))</pre> | `{}` | no |
+| <a name="input_certificate_iam_bindings"></a> [certificate\_iam\_bindings](#input\_certificate\_iam\_bindings) | Map of authoritative IAM role bindings for certificates. Key is a unique id; certificate\_key must be an existing key in self\_managed or managed. Only one binding per role per certificate is allowed. | <pre>map(object({<br/>    certificate_key  = string           # Key of the certificate in var.self_managed or var.managed.<br/>    certificate_type = string           # Either 'self_managed' or 'managed'.<br/>    role             = string           # IAM role (e.g. certificate-manager.viewer).<br/>    members          = set(string)      # Identities: serviceAccount:id, userAccount:id, etc.<br/>    sleep_after      = optional(number) # Delay in seconds after the resource is created, used to compensate IAM operations delay.<br/>  }))</pre> | `{}` | no |
+| <a name="input_certificate_iam_members"></a> [certificate\_iam\_members](#input\_certificate\_iam\_members) | Map of IAM member bindings for certificates. Key is a unique id; certificate\_key must be an existing key in self\_managed or managed. | <pre>map(object({<br/>    certificate_key  = string           # Key of the certificate in var.self_managed or var.managed.<br/>    certificate_type = string           # Either 'self_managed' or 'managed'.<br/>    role             = string           # IAM role (e.g. certificate-manager.certificates.downloader).<br/>    member           = string           # Identity: serviceAccount:id, userAccount:id, etc.<br/>    sleep_after      = optional(number) # Delay in seconds after the resource is created, used to compensate IAM operations delay.<br/>  }))</pre> | `{}` | no |
 | <a name="input_managed"></a> [managed](#input\_managed) | Managed certificate specification. | <pre>map(object({<br/>    domains             = list(string)                  # List of domains for this certificate (required)<br/>    description         = optional(string, "")          # Certificate description.<br/>    labels              = optional(map(string), {})     # Labels to assign to this certificate.<br/>    challenge_type      = optional(string, "DNS_CNAME") # Domain owner-check method. Possible values: DNS_CNAME, DNS_TXT, HTTP<br/>    challenge_count     = optional(number, 1)           # Expected number of challenge count needed to validate certificate.<br/>    folder_id           = optional(string, null)        # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.<br/>    deletion_protection = optional(bool, false)         # Protection from accidental deletion of the certificate.<br/>  }))</pre> | `{}` | no |
 | <a name="input_self_managed"></a> [self\_managed](#input\_self\_managed) | Self-managed certificate specification. | <pre>map(object({<br/>    description                = optional(string, "")                                  # Certificate description.<br/>    labels                     = optional(map(string), {})                             # Labels to assign to this certificate.<br/>    certificate                = string                                                # Certificate with chain (required).<br/>    private_key                = optional(string, null)                                # Private key of certificate.<br/>    private_key_lockbox_secret = optional(object({ id = string, key = string }), null) # Lockbox secret specification for getting private key.<br/>    folder_id                  = optional(string, null)                                # Folder ID where certificate will be created. If value is omitted, the default provider folder is used.<br/>    deletion_protection        = optional(bool, false)                                 # Protection from accidental deletion of the certificate.<br/>  }))</pre> | `{}` | no |
 

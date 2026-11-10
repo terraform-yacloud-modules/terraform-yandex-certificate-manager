@@ -56,4 +56,21 @@ resource "yandex_cm_certificate_iam_member" "this" {
   certificate_id = each.value.certificate_type == "self_managed" ? yandex_cm_certificate.self_managed[each.value.certificate_key].id : yandex_cm_certificate.managed[each.value.certificate_key].id
   role           = each.value.role
   member         = each.value.member
+  sleep_after    = each.value.sleep_after
+}
+
+################################################################################
+# Certificate IAM bindings (provider >= 0.136.0)
+################################################################################
+resource "yandex_cm_certificate_iam_binding" "this" {
+  for_each = {
+    for k, v in var.certificate_iam_bindings : k => v
+    if(v.certificate_type == "self_managed" && contains(keys(var.self_managed), v.certificate_key)) ||
+    (v.certificate_type == "managed" && contains(keys(var.managed), v.certificate_key))
+  }
+
+  certificate_id = each.value.certificate_type == "self_managed" ? yandex_cm_certificate.self_managed[each.value.certificate_key].id : yandex_cm_certificate.managed[each.value.certificate_key].id
+  role           = each.value.role
+  members        = each.value.members
+  sleep_after    = each.value.sleep_after
 }
