@@ -1,3 +1,7 @@
+## v2.29.0 - 2026-11-16
+### Miscellaneous
+- bea5612 build(deps): bump bridgecrewio/checkov-action ([#84](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/84))
+
 ## v2.28.0 - 2026-11-10
 ### Features
 - c0338e5 feat: add certificate IAM bindings support ([#82](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/82))
