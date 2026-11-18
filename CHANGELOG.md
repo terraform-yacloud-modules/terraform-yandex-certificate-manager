@@ -1,3 +1,7 @@
+## v2.30.0 - 2026-11-18
+### Miscellaneous
+- 611e0f6 ci: run semver job only on push to main ([#85](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/85))
+
 ## v2.29.0 - 2026-11-16
 ### Miscellaneous
 - bea5612 build(deps): bump bridgecrewio/checkov-action ([#84](https://github.com/terraform-yacloud-modules/terraform-yandex-certificate-manager/pull/84))
